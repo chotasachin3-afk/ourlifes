@@ -10,6 +10,7 @@ import { NotesTab } from "@/components/couple/NotesTab";
 import { MusicTab } from "@/components/couple/MusicTab";
 import { GamesTab } from "@/components/couple/GamesTab";
 import { BirthdayTab } from "@/components/couple/BirthdayTab";
+import { PinSettings } from "@/components/couple/PinSettings";
 
 export const Route = createFileRoute("/")({
   head: () => ({
