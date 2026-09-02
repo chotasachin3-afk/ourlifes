@@ -31,7 +31,10 @@ export function Header({ settings, reload }: { settings: Settings; reload: () =>
       .from("settings")
       .update({ names, start_date: start })
       .eq("id", "main");
-    if (error) return toast.error("Couldn't save");
+    if (error) {
+      toast.error("Couldn't save");
+      return;
+    }
     setEditing(false);
     reload();
   };
