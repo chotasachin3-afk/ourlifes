@@ -14,7 +14,168 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      music: {
+        Row: {
+          created_at: string
+          id: string
+          title: string | null
+          url: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          title?: string | null
+          url: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          title?: string | null
+          url?: string
+        }
+        Relationships: []
+      }
+      notes: {
+        Row: {
+          author: string | null
+          body: string
+          created_at: string
+          id: string
+        }
+        Insert: {
+          author?: string | null
+          body: string
+          created_at?: string
+          id?: string
+        }
+        Update: {
+          author?: string | null
+          body?: string
+          created_at?: string
+          id?: string
+        }
+        Relationships: []
+      }
+      photos: {
+        Row: {
+          caption: string | null
+          created_at: string
+          id: string
+          url: string
+        }
+        Insert: {
+          caption?: string | null
+          created_at?: string
+          id?: string
+          url: string
+        }
+        Update: {
+          caption?: string | null
+          created_at?: string
+          id?: string
+          url?: string
+        }
+        Relationships: []
+      }
+      quiz: {
+        Row: {
+          answer: string
+          created_at: string
+          id: string
+          options: string[]
+          question: string
+        }
+        Insert: {
+          answer: string
+          created_at?: string
+          id?: string
+          options?: string[]
+          question: string
+        }
+        Update: {
+          answer?: string
+          created_at?: string
+          id?: string
+          options?: string[]
+          question?: string
+        }
+        Relationships: []
+      }
+      settings: {
+        Row: {
+          birthday_date: string | null
+          birthday_letter: string | null
+          id: string
+          names: string
+          photo_url: string | null
+          pin: string
+          start_date: string
+          updated_at: string
+        }
+        Insert: {
+          birthday_date?: string | null
+          birthday_letter?: string | null
+          id?: string
+          names?: string
+          photo_url?: string | null
+          pin?: string
+          start_date?: string
+          updated_at?: string
+        }
+        Update: {
+          birthday_date?: string | null
+          birthday_letter?: string | null
+          id?: string
+          names?: string
+          photo_url?: string | null
+          pin?: string
+          start_date?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      tictactoe: {
+        Row: {
+          board: string[]
+          id: string
+          turn: string
+          updated_at: string
+        }
+        Insert: {
+          board?: string[]
+          id?: string
+          turn?: string
+          updated_at?: string
+        }
+        Update: {
+          board?: string[]
+          id?: string
+          turn?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      truth_or_dare: {
+        Row: {
+          created_at: string
+          id: string
+          kind: string
+          prompt: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          kind?: string
+          prompt: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          kind?: string
+          prompt?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
