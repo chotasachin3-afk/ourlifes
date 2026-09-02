@@ -85,6 +85,10 @@ function Index() {
     <main className="mx-auto min-h-screen w-full max-w-md pb-28">
       <Header settings={settings} reload={load} />
 
+      <div className="mb-4 flex flex-col">
+        <PinSettings settings={settings} reload={load} />
+      </div>
+
       <div className="px-4">
         {tab === "photos" && <Gallery />}
         {tab === "notes" && <NotesTab />}
