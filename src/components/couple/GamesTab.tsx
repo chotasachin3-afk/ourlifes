@@ -49,7 +49,10 @@ function TruthOrDare() {
 
   const draw = (want: string) => {
     const pool = rows.filter((r) => r.kind === want);
-    if (!pool.length) return toast.error(`No ${want}s left — add one!`);
+    if (!pool.length) {
+      toast.error(`No ${want}s left — add one!`);
+      return;
+    }
     setCurrent(pool[Math.floor(Math.random() * pool.length)]!);
   };
 
