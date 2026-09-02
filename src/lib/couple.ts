@@ -24,7 +24,14 @@ export function useLiveTable<T>(table: string, ascending = false) {
   const [loading, setLoading] = useState(true);
 
   const load = useCallback(async () => {
-    const { data } = await supabase.from(table).select("*").order("created_at", { ascending });
+    const client = supabase as unknown as {
+      from: (t: string) => {
+        select: (c: string) => {
+          order: (c: string, o: { ascending: boolean }) => Promise<{ data: unknown[] | null }>;
+        };
+      };
+    };
+    const { data } = await client.from(table).select("*").order("created_at", { ascending });
     setRows((data ?? []) as T[]);
     setLoading(false);
   }, [table, ascending]);
