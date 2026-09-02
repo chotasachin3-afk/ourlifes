@@ -10,6 +10,7 @@ import { NotesTab } from "@/components/couple/NotesTab";
 import { MusicTab } from "@/components/couple/MusicTab";
 import { GamesTab } from "@/components/couple/GamesTab";
 import { BirthdayTab } from "@/components/couple/BirthdayTab";
+import { PinSettings } from "@/components/couple/PinSettings";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -84,6 +85,10 @@ function Index() {
   return (
     <main className="mx-auto min-h-screen w-full max-w-md pb-28">
       <Header settings={settings} reload={load} />
+
+      <div className="mb-4 flex flex-col">
+        <PinSettings settings={settings} reload={load} />
+      </div>
 
       <div className="px-4">
         {tab === "photos" && <Gallery />}
