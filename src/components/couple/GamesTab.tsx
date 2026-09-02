@@ -3,25 +3,29 @@ import { Trash2, Plus, Shuffle, RotateCcw } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useLiveTable, type Board, type QuizItem, type TodItem } from "@/lib/couple";
 import { toast } from "sonner";
+import { BingoGame } from "./BingoGame";
+import { DoodleGame } from "./DoodleGame";
 
-type Game = "tod" | "ttt" | "quiz";
+type Game = "tod" | "ttt" | "quiz" | "bingo" | "doodle";
 
 export function GamesTab() {
   const [game, setGame] = useState<Game>("tod");
   return (
     <section className="space-y-4">
-      <div className="flex gap-2">
+      <div className="flex flex-wrap gap-2">
         {(
           [
             ["tod", "Truth or Dare"],
             ["ttt", "Tic-Tac-Toe"],
             ["quiz", "Know Me"],
+            ["bingo", "Bingo"],
+            ["doodle", "Doodle"],
           ] as [Game, string][]
         ).map(([key, label]) => (
           <button
             key={key}
             onClick={() => setGame(key)}
-            className={`flex-1 rounded-full px-3 py-2 text-xs font-medium transition-all ${
+            className={`min-w-24 flex-1 rounded-full px-3 py-2 text-xs font-medium transition-all ${
               game === key
                 ? "romance-gradient text-primary-foreground"
                 : "border border-border text-muted-foreground"
@@ -34,6 +38,8 @@ export function GamesTab() {
       {game === "tod" && <TruthOrDare />}
       {game === "ttt" && <TicTacToe />}
       {game === "quiz" && <Quiz />}
+      {game === "bingo" && <BingoGame />}
+      {game === "doodle" && <DoodleGame />}
     </section>
   );
 }
@@ -101,7 +107,7 @@ function TruthOrDare() {
       {manage && (
         <div className="space-y-3">
           <div className="panel space-y-3 p-4">
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
               {["truth", "dare"].map((k) => (
                 <button
                   key={k}
