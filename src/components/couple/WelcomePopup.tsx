@@ -49,7 +49,7 @@ export function WelcomePopup({ name = "Laiba" }: { name?: string }) {
           Welcome back to Our Universe, {name}!
         </h2>
         <p className="mt-3 text-sm text-muted-foreground">
-          Every wave, every bird, every little星 here belongs to us.
+          Every wave, every bird, every little star here belongs to us.
         </p>
 
         <button
