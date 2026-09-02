@@ -14,6 +14,96 @@ export type Database = {
   }
   public: {
     Tables: {
+      bingo: {
+        Row: {
+          created_at: string
+          done: boolean
+          id: string
+          label: string
+        }
+        Insert: {
+          created_at?: string
+          done?: boolean
+          id?: string
+          label: string
+        }
+        Update: {
+          created_at?: string
+          done?: boolean
+          id?: string
+          label?: string
+        }
+        Relationships: []
+      }
+      doodle_strokes: {
+        Row: {
+          color: string
+          created_at: string
+          id: string
+          points: Json
+        }
+        Insert: {
+          color?: string
+          created_at?: string
+          id?: string
+          points: Json
+        }
+        Update: {
+          color?: string
+          created_at?: string
+          id?: string
+          points?: Json
+        }
+        Relationships: []
+      }
+      messages: {
+        Row: {
+          body: string | null
+          created_at: string
+          id: string
+          media_type: string | null
+          media_url: string | null
+          sender: string
+        }
+        Insert: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          media_type?: string | null
+          media_url?: string | null
+          sender?: string
+        }
+        Update: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          media_type?: string | null
+          media_url?: string | null
+          sender?: string
+        }
+        Relationships: []
+      }
+      moods: {
+        Row: {
+          created_at: string
+          emoji: string
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          emoji?: string
+          id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          emoji?: string
+          id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       music: {
         Row: {
           created_at: string
