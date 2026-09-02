@@ -13,7 +13,6 @@ import { BirthdayTab } from "@/components/couple/BirthdayTab";
 import { PinSettings } from "@/components/couple/PinSettings";
 import { ChatTab } from "@/components/couple/ChatTab";
 import { MoodTracker } from "@/components/couple/MoodTracker";
-import { BirdsBackground } from "@/components/couple/BirdsBackground";
 import { WelcomePopup } from "@/components/couple/WelcomePopup";
 
 export const Route = createFileRoute("/")({
@@ -23,7 +22,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "A private oceanic space for two: live chat with photos and videos, shared gallery, love notes, playlist, couple games and a birthday surprise.",
+          "A private romantic space for two: live chat with photos and videos, shared gallery, love notes, playlist, couple games and a birthday surprise.",
       },
       { property: "og:title", content: "Our Universe — A Private World for Two" },
       {
@@ -76,7 +75,6 @@ function Index() {
   if (!unlocked) {
     return (
       <main className="relative">
-        <BirdsBackground />
         <div className="relative z-10">
           <PinLock
             pin={settings.pin}
@@ -92,7 +90,6 @@ function Index() {
 
   return (
     <>
-      <BirdsBackground />
       <WelcomePopup name="Laiba" />
 
       <main className="relative z-10 mx-auto min-h-screen w-full max-w-md pb-28">
@@ -117,14 +114,16 @@ function Index() {
           {tab === "birthday" && <BirthdayTab settings={settings} reload={load} />}
         </div>
 
-        <nav className="fixed inset-x-0 bottom-0 z-20 mx-auto w-full max-w-md border-t border-border/70 bg-background/85 px-1 pb-[env(safe-area-inset-bottom)] pt-2 backdrop-blur-xl">
-          <ul className="flex">
+        <nav className="fixed inset-x-0 bottom-3 z-20 mx-auto w-full max-w-md px-3 pb-[env(safe-area-inset-bottom)]">
+          <ul className="flex items-center justify-between gap-1 rounded-3xl border border-border/50 bg-card/75 p-2 shadow-[var(--shadow-soft)] backdrop-blur-2xl">
             {TABS.map(([key, label, Icon]) => (
               <li key={key} className="flex-1">
                 <button
                   onClick={() => setTab(key)}
-                  className={`flex w-full flex-col items-center gap-1 rounded-xl py-2 text-[9px] tracking-wide transition-colors ${
-                    tab === key ? "text-primary" : "text-muted-foreground"
+                  className={`flex w-full flex-col items-center gap-1 rounded-2xl py-2 text-[9px] tracking-wide transition-all duration-200 ${
+                    tab === key
+                      ? "romance-gradient text-primary-foreground shadow-[var(--shadow-glow)]"
+                      : "text-muted-foreground hover:text-foreground"
                   }`}
                 >
                   <Icon className="size-5" />

@@ -6,7 +6,8 @@
 
 /*
  * Romantic dark design system.
- * Deep wine/plum surfaces, rose-gold accents, serif display + soft sans body.
+ * Matte obsidian surfaces, rose-gold & warm sunset accents,
+ * serif display + soft sans body, glassmorphism panels.
  */
 
 @theme inline {
@@ -43,42 +44,42 @@
 
 :root {
   --radius: 1rem;
-  --background: #001f31;
-  --foreground: #f3f0df;
-  --card: #002d4d;
-  --card-foreground: #f3f0df;
-  --popover: #002d4d;
-  --popover-foreground: #f3f0df;
-  --primary: #4fb0d8;
-  --primary-foreground: #001f31;
-  --secondary: #003f5b;
-  --secondary-foreground: #f3f0df;
-  --muted: #003f5b;
-  --muted-foreground: #a7c4d4;
-  --accent: #003f5b;
-  --accent-foreground: #f3f0df;
-  --destructive: #e0776b;
-  --destructive-foreground: #001f31;
-  --border: #0a4f6e;
-  --input: #003f5b;
-  --ring: #4fb0d8;
-  --gold: #9fd8ea;
-  --blush: #f3f0df;
+  --background: #0c0e14;
+  --foreground: #f8fafc;
+  --card: #151821;
+  --card-foreground: #f8fafc;
+  --popover: #151821;
+  --popover-foreground: #f8fafc;
+  --primary: #f472b6;
+  --primary-foreground: #0c0e14;
+  --secondary: #1d212c;
+  --secondary-foreground: #f8fafc;
+  --muted: #1d212c;
+  --muted-foreground: #b8bccc;
+  --accent: #1d212c;
+  --accent-foreground: #f8fafc;
+  --destructive: #fb7185;
+  --destructive-foreground: #0c0e14;
+  --border: #2a2f3d;
+  --input: #1d212c;
+  --ring: #f472b6;
+  --gold: #e0a96d;
+  --blush: #f8fafc;
 
-  --gradient-romance: linear-gradient(145deg, #003f5b 0%, #0a6a8f 55%, #4fb0d8 100%);
+  --gradient-romance: linear-gradient(145deg, #f472b6 0%, #fb7185 55%, #e0a96d 100%);
   --gradient-veil: radial-gradient(
       120% 90% at 15% 0%,
-      color-mix(in oklab, #4fb0d8 16%, transparent) 0%,
+      color-mix(in oklab, #f472b6 14%, transparent) 0%,
       transparent 60%
     ),
     radial-gradient(
       110% 80% at 90% 10%,
-      color-mix(in oklab, #003f5b 55%, transparent) 0%,
+      color-mix(in oklab, #e0a96d 22%, transparent) 0%,
       transparent 65%
     );
-  --shadow-soft: 0 18px 45px -22px color-mix(in oklab, #001f31 85%, transparent);
-  --shadow-glow: 0 0 0 1px color-mix(in oklab, var(--gold) 25%, transparent),
-    0 22px 60px -25px color-mix(in oklab, var(--gold) 40%, transparent);
+  --shadow-soft: 0 18px 45px -22px color-mix(in oklab, #0c0e14 90%, transparent);
+  --shadow-glow: 0 0 0 1px color-mix(in oklab, var(--gold) 30%, transparent),
+    0 22px 60px -25px color-mix(in oklab, var(--primary) 45%, transparent);
 }
 
 
@@ -115,11 +116,11 @@
 }
 
 @utility panel {
-  background-color: color-mix(in oklab, var(--card) 88%, transparent);
-  border: 1px solid color-mix(in oklab, var(--border) 80%, transparent);
+  background-color: color-mix(in oklab, var(--card) 72%, transparent);
+  border: 1px solid color-mix(in oklab, var(--border) 70%, transparent);
   border-radius: var(--radius-2xl);
   box-shadow: var(--shadow-soft);
-  backdrop-filter: blur(14px);
+  backdrop-filter: blur(18px);
 }
 
 @utility heart-pulse {
@@ -148,22 +149,6 @@
   to {
     opacity: 1;
     transform: none;
-  }
-}
-
-@utility bird-drift {
-  animation: bird-drift 26s linear infinite;
-}
-
-@keyframes bird-drift {
-  0% {
-    transform: translate3d(-10vw, 0, 0) rotate(-4deg);
-  }
-  50% {
-    transform: translate3d(50vw, -18px, 0) rotate(4deg);
-  }
-  100% {
-    transform: translate3d(110vw, 0, 0) rotate(-4deg);
   }
 }
 

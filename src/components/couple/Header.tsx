@@ -42,11 +42,11 @@ export function Header({ settings, reload }: { settings: Settings; reload: () =>
   const days = daysBetween(settings.start_date);
 
   return (
-    <header className="flex flex-col items-center px-6 pb-6 pt-10 text-center">
+    <header className="flex flex-col items-center px-6 pb-6 pt-12 text-center">
       <button
         type="button"
         onClick={() => fileRef.current?.click()}
-        className="group relative size-28 rounded-full p-[3px] romance-gradient shadow-[var(--shadow-glow)] transition-transform active:scale-95"
+        className="group relative size-32 rounded-full p-[3px] romance-gradient shadow-[var(--shadow-glow)] transition-transform active:scale-95"
         aria-label="Change our photo"
       >
         <span className="flex size-full items-center justify-center overflow-hidden rounded-full bg-card">
@@ -58,10 +58,10 @@ export function Header({ settings, reload }: { settings: Settings; reload: () =>
               loading="lazy"
             />
           ) : (
-            <Camera className="size-7 text-muted-foreground" />
+            <Camera className="size-8 text-muted-foreground" />
           )}
         </span>
-        <span className="absolute -bottom-1 -right-1 rounded-full romance-gradient p-1.5 text-primary-foreground">
+        <span className="absolute -bottom-1 -right-1 rounded-full romance-gradient p-1.5 text-primary-foreground shadow-[var(--shadow-glow)]">
           <Camera className="size-3.5" />
         </span>
       </button>

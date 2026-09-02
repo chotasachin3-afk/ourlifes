@@ -83,7 +83,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { title: "Our Universe" },
       { name: "description", content: "A private little world for two." },
-      { name: "theme-color", content: "#001f31" },
+      { name: "theme-color", content: "#0c0e14" },
     ],
     links: [
       {
