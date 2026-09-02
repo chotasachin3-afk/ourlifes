@@ -7,10 +7,13 @@ export function WelcomePopup({ name = "Laiba" }: { name?: string }) {
 
   useEffect(() => {
     if (sessionStorage.getItem("only-us-greeted") === "1") return;
-    sessionStorage.setItem("only-us-greeted", "1");
-    const t = setTimeout(() => setOpen(true), 350);
+    const t = setTimeout(() => {
+      sessionStorage.setItem("only-us-greeted", "1");
+      setOpen(true);
+    }, 350);
     return () => clearTimeout(t);
   }, []);
+
 
   if (!open) return null;
 
