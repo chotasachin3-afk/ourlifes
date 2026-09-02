@@ -17,6 +17,17 @@ export type Track = { id: string; title: string | null; url: string; created_at:
 export type TodItem = { id: string; kind: string; prompt: string };
 export type QuizItem = { id: string; question: string; options: string[]; answer: string };
 export type Board = { id: string; board: string[]; turn: string };
+export type Message = {
+  id: string;
+  body: string | null;
+  media_url: string | null;
+  media_type: string | null;
+  sender: string;
+  created_at: string;
+};
+export type BingoItem = { id: string; label: string; done: boolean; created_at: string };
+export type Stroke = { id: string; points: number[][]; color: string; created_at: string };
+export type Mood = { id: string; emoji: string; updated_at: string };
 
 /** Subscribe to a table and keep a local list in sync across both phones. */
 export function useLiveTable<T>(table: string, ascending = false) {
