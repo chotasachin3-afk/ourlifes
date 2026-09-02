@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
-import { Images, StickyNote, Music2, Gamepad2, Cake, Lock } from "lucide-react";
+import { Images, StickyNote, Music2, Gamepad2, Cake, Lock, MessageCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import type { Settings } from "@/lib/couple";
 import { PinLock } from "@/components/couple/PinLock";
@@ -11,21 +11,25 @@ import { MusicTab } from "@/components/couple/MusicTab";
 import { GamesTab } from "@/components/couple/GamesTab";
 import { BirthdayTab } from "@/components/couple/BirthdayTab";
 import { PinSettings } from "@/components/couple/PinSettings";
+import { ChatTab } from "@/components/couple/ChatTab";
+import { MoodTracker } from "@/components/couple/MoodTracker";
+import { BirdsBackground } from "@/components/couple/BirdsBackground";
+import { WelcomePopup } from "@/components/couple/WelcomePopup";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Only Us — Our Private Little World" },
+      { title: "Our Universe — A Private World for Two" },
       {
         name: "description",
         content:
-          "A private space for two: shared photo gallery, love notes, our playlist, couple games and a birthday surprise, synced live between both phones.",
+          "A private oceanic space for two: live chat with photos and videos, shared gallery, love notes, playlist, couple games and a birthday surprise.",
       },
-      { property: "og:title", content: "Only Us — Our Private Little World" },
+      { property: "og:title", content: "Our Universe — A Private World for Two" },
       {
         property: "og:description",
         content:
-          "Photos, love notes, our playlist, couple games and a birthday surprise — locked behind our own PIN.",
+          "Live chat, photos, love notes, our playlist, couple games and a birthday surprise — locked behind our own PIN.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -35,10 +39,11 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-type Tab = "photos" | "notes" | "music" | "games" | "birthday";
+type Tab = "photos" | "chat" | "notes" | "music" | "games" | "birthday";
 
 const TABS: [Tab, string, typeof Images][] = [
   ["photos", "Photos", Images],
+  ["chat", "Chat", MessageCircle],
   ["notes", "Notes", StickyNote],
   ["music", "Music", Music2],
   ["games", "Games", Gamepad2],
@@ -70,51 +75,66 @@ function Index() {
 
   if (!unlocked) {
     return (
-      <main>
-        <PinLock
-          pin={settings.pin}
-          onUnlock={() => {
-            sessionStorage.setItem("only-us-unlocked", "1");
-            setUnlocked(true);
-          }}
-        />
+      <main className="relative">
+        <BirdsBackground />
+        <div className="relative z-10">
+          <PinLock
+            pin={settings.pin}
+            onUnlock={() => {
+              sessionStorage.setItem("only-us-unlocked", "1");
+              setUnlocked(true);
+            }}
+          />
+        </div>
       </main>
     );
   }
 
   return (
-    <main className="mx-auto min-h-screen w-full max-w-md pb-28">
-      <Header settings={settings} reload={load} />
+    <>
+      <BirdsBackground />
+      <WelcomePopup name="Laiba" />
 
-      <div className="mb-4 flex flex-col">
-        <PinSettings settings={settings} reload={load} />
-      </div>
+      <main className="relative z-10 mx-auto min-h-screen w-full max-w-md pb-28">
+        {/* Her name stays present on every tab without touching the open page */}
+        <div className="pointer-events-none fixed left-1/2 top-2 z-30 -translate-x-1/2 rounded-full border border-border/60 bg-card/70 px-3 py-1 text-[10px] uppercase tracking-[0.3em] text-muted-foreground backdrop-blur">
+          Laiba 💙
+        </div>
 
-      <div className="px-4">
-        {tab === "photos" && <Gallery />}
-        {tab === "notes" && <NotesTab />}
-        {tab === "music" && <MusicTab />}
-        {tab === "games" && <GamesTab />}
-        {tab === "birthday" && <BirthdayTab settings={settings} reload={load} />}
-      </div>
+        <Header settings={settings} reload={load} />
 
-      <nav className="fixed inset-x-0 bottom-0 z-20 mx-auto w-full max-w-md border-t border-border/70 bg-background/85 px-2 pb-[env(safe-area-inset-bottom)] pt-2 backdrop-blur-xl">
-        <ul className="flex">
-          {TABS.map(([key, label, Icon]) => (
-            <li key={key} className="flex-1">
-              <button
-                onClick={() => setTab(key)}
-                className={`flex w-full flex-col items-center gap-1 rounded-xl py-2 text-[10px] tracking-wide transition-colors ${
-                  tab === key ? "text-primary" : "text-muted-foreground"
-                }`}
-              >
-                <Icon className="size-5" />
-                {label}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </nav>
-    </main>
+        <div className="mb-4 flex flex-col gap-3">
+          <MoodTracker />
+          <PinSettings settings={settings} reload={load} />
+        </div>
+
+        <div className="px-4">
+          {tab === "photos" && <Gallery />}
+          {tab === "chat" && <ChatTab />}
+          {tab === "notes" && <NotesTab />}
+          {tab === "music" && <MusicTab />}
+          {tab === "games" && <GamesTab />}
+          {tab === "birthday" && <BirthdayTab settings={settings} reload={load} />}
+        </div>
+
+        <nav className="fixed inset-x-0 bottom-0 z-20 mx-auto w-full max-w-md border-t border-border/70 bg-background/85 px-1 pb-[env(safe-area-inset-bottom)] pt-2 backdrop-blur-xl">
+          <ul className="flex">
+            {TABS.map(([key, label, Icon]) => (
+              <li key={key} className="flex-1">
+                <button
+                  onClick={() => setTab(key)}
+                  className={`flex w-full flex-col items-center gap-1 rounded-xl py-2 text-[9px] tracking-wide transition-colors ${
+                    tab === key ? "text-primary" : "text-muted-foreground"
+                  }`}
+                >
+                  <Icon className="size-5" />
+                  {label}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </main>
+    </>
   );
 }
