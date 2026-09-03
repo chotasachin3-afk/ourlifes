@@ -21,7 +21,10 @@ export function NameSettings({
       .from("couple_members")
       .update({ display_name: value })
       .eq("user_id", member.user_id);
-    if (error) return toast.error("Couldn't save that name");
+    if (error) {
+      toast.error("Couldn't save that name");
+      return;
+    }
     toast.success("Saved 💙");
     setOpen(false);
     reload();
