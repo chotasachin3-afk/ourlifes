@@ -2,27 +2,21 @@ import { useEffect, useRef, useState } from "react";
 import { Plus, Send, Trash2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useLiveTable, type Message } from "@/lib/couple";
+import type { CoupleMember } from "@/lib/auth";
 import { toast } from "sonner";
-
-const SENDER_KEY = "only-us-sender";
 
 function timeOf(iso: string) {
   return new Date(iso).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 }
 
 /** Live chat with photo & video sharing, WhatsApp style bubbles. */
-export function ChatTab() {
+export function ChatTab({ member }: { member: CoupleMember }) {
   const { rows } = useLiveTable<Message>("messages", true);
   const [text, setText] = useState("");
   const [busy, setBusy] = useState(false);
-  const [me, setMe] = useState("her");
   const [urls, setUrls] = useState<Record<string, string>>({});
   const fileRef = useRef<HTMLInputElement>(null);
   const endRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    setMe(localStorage.getItem(SENDER_KEY) ?? "her");
-  }, []);
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ block: "end" });
@@ -48,17 +42,11 @@ export function ChatTab() {
     };
   }, [rows, urls]);
 
-  const switchSender = () => {
-    const next = me === "her" ? "him" : "her";
-    setMe(next);
-    localStorage.setItem(SENDER_KEY, next);
-  };
-
   const send = async () => {
     if (!text.trim()) return;
     const body = text.trim();
     setText("");
-    const { error } = await supabase.from("messages").insert({ body, sender: me });
+    const { error } = await supabase.from("messages").insert({ body, sender_id: member.user_id, sender: member.display_name });
     if (error) toast.error("Message didn't send");
   };
 
@@ -67,13 +55,14 @@ export function ChatTab() {
     setBusy(true);
     try {
       const ext = file.name.split(".").pop() ?? "bin";
-      const path = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+      const path = `${member.couple_id}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
       const { error: upErr } = await supabase.storage.from("chat-media").upload(path, file);
       if (upErr) throw upErr;
       const { error } = await supabase.from("messages").insert({
         media_url: path,
         media_type: file.type.startsWith("video") ? "video" : "image",
-        sender: me,
+        sender_id: member.user_id,
+        sender: member.display_name,
       });
       if (error) throw error;
     } catch {
@@ -90,16 +79,13 @@ export function ChatTab() {
 
   return (
     <section className="flex flex-col">
-      <button
-        onClick={switchSender}
-        className="mx-auto mb-3 rounded-full border border-border/70 px-3 py-1.5 text-[11px] uppercase tracking-widest text-muted-foreground"
-      >
-        Texting as {me === "her" ? "Laiba" : "you"} · tap to switch
-      </button>
+      <p className="mx-auto mb-3 rounded-full border border-border/70 px-3 py-1.5 text-[11px] uppercase tracking-widest text-muted-foreground">
+        Texting as {member.display_name}
+      </p>
 
       <ul className="space-y-3">
         {rows.map((m) => {
-          const mine = m.sender === me;
+          const mine = m.sender_id ? m.sender_id === member.user_id : m.sender === member.display_name;
           const src = m.media_url ? urls[m.media_url] : undefined;
           return (
             <li
