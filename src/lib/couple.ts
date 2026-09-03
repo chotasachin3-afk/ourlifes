@@ -23,6 +23,7 @@ export type Message = {
   media_url: string | null;
   media_type: string | null;
   sender: string;
+  sender_id: string | null;
   created_at: string;
 };
 export type BingoItem = { id: string; label: string; done: boolean; created_at: string };

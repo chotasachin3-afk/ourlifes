@@ -16,160 +16,300 @@ export type Database = {
     Tables: {
       bingo: {
         Row: {
+          couple_id: string
           created_at: string
           done: boolean
           id: string
           label: string
         }
         Insert: {
+          couple_id?: string
           created_at?: string
           done?: boolean
           id?: string
           label: string
         }
         Update: {
+          couple_id?: string
           created_at?: string
           done?: boolean
           id?: string
           label?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bingo_couple_id_fkey"
+            columns: ["couple_id"]
+            isOneToOne: false
+            referencedRelation: "couples"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      couple_members: {
+        Row: {
+          couple_id: string
+          created_at: string
+          display_name: string
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          couple_id: string
+          created_at?: string
+          display_name?: string
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          couple_id?: string
+          created_at?: string
+          display_name?: string
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "couple_members_couple_id_fkey"
+            columns: ["couple_id"]
+            isOneToOne: false
+            referencedRelation: "couples"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      couples: {
+        Row: {
+          created_at: string
+          id: string
+          join_code: string
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          join_code: string
+          name?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          join_code?: string
+          name?: string
+          updated_at?: string
         }
         Relationships: []
       }
       doodle_strokes: {
         Row: {
           color: string
+          couple_id: string
           created_at: string
           id: string
           points: Json
         }
         Insert: {
           color?: string
+          couple_id?: string
           created_at?: string
           id?: string
           points: Json
         }
         Update: {
           color?: string
+          couple_id?: string
           created_at?: string
           id?: string
           points?: Json
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "doodle_strokes_couple_id_fkey"
+            columns: ["couple_id"]
+            isOneToOne: false
+            referencedRelation: "couples"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       messages: {
         Row: {
           body: string | null
+          couple_id: string
           created_at: string
           id: string
           media_type: string | null
           media_url: string | null
           sender: string
+          sender_id: string | null
         }
         Insert: {
           body?: string | null
+          couple_id?: string
           created_at?: string
           id?: string
           media_type?: string | null
           media_url?: string | null
           sender?: string
+          sender_id?: string | null
         }
         Update: {
           body?: string | null
+          couple_id?: string
           created_at?: string
           id?: string
           media_type?: string | null
           media_url?: string | null
           sender?: string
+          sender_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "messages_couple_id_fkey"
+            columns: ["couple_id"]
+            isOneToOne: false
+            referencedRelation: "couples"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       moods: {
         Row: {
+          couple_id: string
           created_at: string
           emoji: string
           id: string
           updated_at: string
         }
         Insert: {
+          couple_id?: string
           created_at?: string
           emoji?: string
           id: string
           updated_at?: string
         }
         Update: {
+          couple_id?: string
           created_at?: string
           emoji?: string
           id?: string
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "moods_couple_id_fkey"
+            columns: ["couple_id"]
+            isOneToOne: false
+            referencedRelation: "couples"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       music: {
         Row: {
+          couple_id: string
           created_at: string
           id: string
           title: string | null
           url: string
         }
         Insert: {
+          couple_id?: string
           created_at?: string
           id?: string
           title?: string | null
           url: string
         }
         Update: {
+          couple_id?: string
           created_at?: string
           id?: string
           title?: string | null
           url?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "music_couple_id_fkey"
+            columns: ["couple_id"]
+            isOneToOne: false
+            referencedRelation: "couples"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       notes: {
         Row: {
           author: string | null
           body: string
+          couple_id: string
           created_at: string
           id: string
         }
         Insert: {
           author?: string | null
           body: string
+          couple_id?: string
           created_at?: string
           id?: string
         }
         Update: {
           author?: string | null
           body?: string
+          couple_id?: string
           created_at?: string
           id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "notes_couple_id_fkey"
+            columns: ["couple_id"]
+            isOneToOne: false
+            referencedRelation: "couples"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       photos: {
         Row: {
           caption: string | null
+          couple_id: string
           created_at: string
           id: string
           url: string
         }
         Insert: {
           caption?: string | null
+          couple_id?: string
           created_at?: string
           id?: string
           url: string
         }
         Update: {
           caption?: string | null
+          couple_id?: string
           created_at?: string
           id?: string
           url?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "photos_couple_id_fkey"
+            columns: ["couple_id"]
+            isOneToOne: false
+            referencedRelation: "couples"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       quiz: {
         Row: {
           answer: string
+          couple_id: string
           created_at: string
           id: string
           options: string[]
@@ -177,6 +317,7 @@ export type Database = {
         }
         Insert: {
           answer: string
+          couple_id?: string
           created_at?: string
           id?: string
           options?: string[]
@@ -184,17 +325,27 @@ export type Database = {
         }
         Update: {
           answer?: string
+          couple_id?: string
           created_at?: string
           id?: string
           options?: string[]
           question?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "quiz_couple_id_fkey"
+            columns: ["couple_id"]
+            isOneToOne: false
+            referencedRelation: "couples"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       settings: {
         Row: {
           birthday_date: string | null
           birthday_letter: string | null
+          couple_id: string
           id: string
           names: string
           photo_url: string | null
@@ -205,6 +356,7 @@ export type Database = {
         Insert: {
           birthday_date?: string | null
           birthday_letter?: string | null
+          couple_id?: string
           id?: string
           names?: string
           photo_url?: string | null
@@ -215,6 +367,7 @@ export type Database = {
         Update: {
           birthday_date?: string | null
           birthday_letter?: string | null
+          couple_id?: string
           id?: string
           names?: string
           photo_url?: string | null
@@ -222,56 +375,87 @@ export type Database = {
           start_date?: string
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "settings_couple_id_fkey"
+            columns: ["couple_id"]
+            isOneToOne: false
+            referencedRelation: "couples"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       tictactoe: {
         Row: {
           board: string[]
+          couple_id: string
           id: string
           turn: string
           updated_at: string
         }
         Insert: {
           board?: string[]
+          couple_id?: string
           id?: string
           turn?: string
           updated_at?: string
         }
         Update: {
           board?: string[]
+          couple_id?: string
           id?: string
           turn?: string
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "tictactoe_couple_id_fkey"
+            columns: ["couple_id"]
+            isOneToOne: false
+            referencedRelation: "couples"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       truth_or_dare: {
         Row: {
+          couple_id: string
           created_at: string
           id: string
           kind: string
           prompt: string
         }
         Insert: {
+          couple_id?: string
           created_at?: string
           id?: string
           kind?: string
           prompt: string
         }
         Update: {
+          couple_id?: string
           created_at?: string
           id?: string
           kind?: string
           prompt?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "truth_or_dare_couple_id_fkey"
+            columns: ["couple_id"]
+            isOneToOne: false
+            referencedRelation: "couples"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      current_couple_id: { Args: never; Returns: string }
+      join_couple: { Args: { _code: string }; Returns: string }
     }
     Enums: {
       [_ in never]: never
