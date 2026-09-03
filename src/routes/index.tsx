@@ -14,6 +14,9 @@ import { PinSettings } from "@/components/couple/PinSettings";
 import { ChatTab } from "@/components/couple/ChatTab";
 import { MoodTracker } from "@/components/couple/MoodTracker";
 import { WelcomePopup } from "@/components/couple/WelcomePopup";
+import { AuthScreen } from "@/components/couple/AuthScreen";
+import { NameSettings } from "@/components/couple/NameSettings";
+import { useCoupleAuth } from "@/lib/auth";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -50,6 +53,7 @@ const TABS: [Tab, string, typeof Images][] = [
 ];
 
 function Index() {
+  const { session, member, loading, refreshMember } = useCoupleAuth();
   const [settings, setSettings] = useState<Settings | null>(null);
   const [unlocked, setUnlocked] = useState(false);
   const [tab, setTab] = useState<Tab>("photos");
@@ -60,9 +64,23 @@ function Index() {
   }, []);
 
   useEffect(() => {
+    if (!member) return;
     load();
     if (sessionStorage.getItem("only-us-unlocked") === "1") setUnlocked(true);
-  }, [load]);
+  }, [load, member]);
+
+  if (loading) {
+    return (
+      <main className="flex min-h-screen items-center justify-center">
+        <Lock className="size-5 animate-pulse text-muted-foreground" />
+      </main>
+    );
+  }
+
+  // Real authentication first, then our own private lock screen.
+  if (!session || !member) {
+    return <AuthScreen needsJoin={!!session} onJoined={refreshMember} />;
+  }
 
   if (!settings) {
     return (
@@ -90,7 +108,7 @@ function Index() {
 
   return (
     <>
-      <WelcomePopup name="Laiba" />
+      <WelcomePopup name={member.display_name} />
 
       <main className="relative z-10 mx-auto min-h-screen w-full max-w-md pb-28">
         {/* Her name stays present on every tab without touching the open page */}
@@ -101,13 +119,14 @@ function Index() {
         <Header settings={settings} reload={load} />
 
         <div className="mb-4 flex flex-col gap-3">
+          <NameSettings member={member} reload={refreshMember} />
           <MoodTracker />
           <PinSettings settings={settings} reload={load} />
         </div>
 
         <div className="px-4">
           {tab === "photos" && <Gallery />}
-          {tab === "chat" && <ChatTab />}
+          {tab === "chat" && <ChatTab member={member} />}
           {tab === "notes" && <NotesTab />}
           {tab === "music" && <MusicTab />}
           {tab === "games" && <GamesTab />}
