@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
-import { Images, StickyNote, Music2, Gamepad2, Cake, Lock } from "lucide-react";
+import { Images, StickyNote, Music2, Gamepad2, Cake, Lock, Heart } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import type { Settings } from "@/lib/couple";
 import { unlockCoupleSession } from "@/lib/couple-session.functions";
