@@ -46,6 +46,44 @@ export type Database = {
           },
         ]
       }
+      chat_theme: {
+        Row: {
+          accent: string
+          bubble: string
+          couple_id: string
+          id: string
+          theme: string
+          updated_at: string
+          wallpaper: string
+        }
+        Insert: {
+          accent?: string
+          bubble?: string
+          couple_id?: string
+          id?: string
+          theme?: string
+          updated_at?: string
+          wallpaper?: string
+        }
+        Update: {
+          accent?: string
+          bubble?: string
+          couple_id?: string
+          id?: string
+          theme?: string
+          updated_at?: string
+          wallpaper?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chat_theme_couple_id_fkey"
+            columns: ["couple_id"]
+            isOneToOne: false
+            referencedRelation: "couples"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       couple_members: {
         Row: {
           couple_id: string
