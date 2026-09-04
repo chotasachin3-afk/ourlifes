@@ -1,17 +1,27 @@
 import { useState } from "react";
 import { Heart, Delete } from "lucide-react";
 
-export function PinLock({ pin, onUnlock }: { pin: string; onUnlock: () => void }) {
+export function PinLock({
+  verify,
+  onUnlock,
+}: {
+  verify: (pin: string) => Promise<boolean>;
+  onUnlock: () => void;
+}) {
   const [entry, setEntry] = useState("");
   const [shake, setShake] = useState(false);
+  const [busy, setBusy] = useState(false);
 
   const press = (digit: string) => {
-    if (entry.length >= 4) return;
+    if (entry.length >= 4 || busy) return;
     const next = entry + digit;
     setEntry(next);
     if (next.length === 4) {
-      window.setTimeout(() => {
-        if (next === pin) {
+      setBusy(true);
+      void (async () => {
+        const ok = await verify(next).catch(() => false);
+        setBusy(false);
+        if (ok) {
           onUnlock();
         } else {
           setShake(true);
@@ -20,9 +30,10 @@ export function PinLock({ pin, onUnlock }: { pin: string; onUnlock: () => void }
             setEntry("");
           }, 500);
         }
-      }, 150);
+      })();
     }
   };
+
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center px-6 py-12">
