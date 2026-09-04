@@ -1,8 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
-import { Images, StickyNote, Music2, Gamepad2, Cake, Lock } from "lucide-react";
+import { Images, StickyNote, Music2, Gamepad2, Cake, Lock, Heart } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import type { Settings } from "@/lib/couple";
+import { unlockCoupleSession } from "@/lib/couple-session.functions";
+
 import { PinLock } from "@/components/couple/PinLock";
 import { Header } from "@/components/couple/Header";
 import { Gallery } from "@/components/couple/Gallery";
@@ -47,6 +49,8 @@ const TABS: [Tab, string, typeof Images][] = [
 function Index() {
   const [settings, setSettings] = useState<Settings | null>(null);
   const [unlocked, setUnlocked] = useState(false);
+  const [checking, setChecking] = useState(true);
+  const [welcome, setWelcome] = useState(false);
   const [tab, setTab] = useState<Tab>("photos");
 
   const load = useCallback(async () => {
@@ -55,11 +59,27 @@ function Index() {
   }, []);
 
   useEffect(() => {
-    load();
-    if (sessionStorage.getItem("only-us-unlocked") === "1") setUnlocked(true);
+    (async () => {
+      const { data } = await supabase.auth.getSession();
+      if (data.session && sessionStorage.getItem("only-us-unlocked") === "1") {
+        await load();
+        setUnlocked(true);
+      }
+      setChecking(false);
+    })();
   }, [load]);
 
-  if (!settings) {
+  const verify = useCallback(async (pin: string) => {
+    const res = await unlockCoupleSession({ data: { pin } });
+    if (!res.ok) return false;
+    const { error } = await supabase.auth.setSession({
+      access_token: res.access_token,
+      refresh_token: res.refresh_token,
+    });
+    return !error;
+  }, []);
+
+  if (checking) {
     return (
       <main className="flex min-h-screen items-center justify-center">
         <Lock className="size-5 animate-pulse text-muted-foreground" />
@@ -67,23 +87,37 @@ function Index() {
     );
   }
 
-  if (!unlocked) {
+  if (!unlocked || !settings) {
     return (
       <main>
         <PinLock
-          pin={settings.pin}
-          onUnlock={() => {
+          verify={verify}
+          onUnlock={async () => {
             sessionStorage.setItem("only-us-unlocked", "1");
+            await load();
             setUnlocked(true);
+            setWelcome(true);
+            window.setTimeout(() => setWelcome(false), 2200);
           }}
         />
       </main>
     );
   }
 
+
   return (
     <main className="mx-auto min-h-screen w-full max-w-md pb-28">
+      {welcome && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-md">
+          <div className="rounded-3xl border border-border/70 bg-card/80 px-10 py-8 text-center">
+            <Heart className="heart-pulse mx-auto size-8 fill-primary text-primary" />
+            <p className="mt-4 text-2xl font-light text-romance">Welcome back</p>
+            <p className="mt-1 text-sm text-muted-foreground">{settings.names}</p>
+          </div>
+        </div>
+      )}
       <Header settings={settings} reload={load} />
+
 
       <div className="px-4">
         {tab === "photos" && <Gallery />}
