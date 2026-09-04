@@ -43,7 +43,7 @@ export function BirthdayTab({ settings, reload }: { settings: Settings; reload: 
         particleCount: 60,
         spread: 80,
         origin: { y: 0.7 },
-        colors: ["#f472b6", "#fb7185", "#e0a96d", "#f8fafc"],
+        colors: ["#ff8fab", "#ffd6a5", "#e0aaff", "#ffc8dd"],
       });
       if (Date.now() < end) requestAnimationFrame(shoot);
     };

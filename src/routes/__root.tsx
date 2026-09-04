@@ -81,9 +81,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         name: "viewport",
         content: "width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1",
       },
-      { title: "Our Universe" },
+      { title: "Only Us" },
       { name: "description", content: "A private little world for two." },
-      { name: "theme-color", content: "#0c0e14" },
+      { name: "theme-color", content: "#1a0d16" },
     ],
     links: [
       {
