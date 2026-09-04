@@ -182,7 +182,7 @@ export function ChatTab() {
                     backgroundImage: mine
                       ? "linear-gradient(135deg, var(--chat-accent), var(--chat-accent-2))"
                       : "none",
-                    background: mine ? undefined : "var(--chat-in)",
+                    backgroundColor: mine ? "transparent" : "var(--chat-in)",
                     color: mine ? "var(--chat-on-accent)" : "var(--chat-in-text)",
                   }}
                 >

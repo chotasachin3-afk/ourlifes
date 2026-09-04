@@ -119,7 +119,7 @@ export function ChatThemeSheet({ open, prefs, personal, onClose, onChange, onTog
                     backgroundImage: active
                       ? "linear-gradient(135deg, var(--chat-accent), var(--chat-accent-2))"
                       : "none",
-                    background: active ? undefined : "var(--chat-in)",
+                    backgroundColor: active ? "transparent" : "var(--chat-in)",
                     color: active ? "var(--chat-on-accent)" : "var(--chat-in-text)",
                   }}
                 >
@@ -164,7 +164,7 @@ export function ChatThemeSheet({ open, prefs, personal, onClose, onChange, onTog
                 backgroundImage: personal
                   ? "linear-gradient(135deg, var(--chat-accent), var(--chat-accent-2))"
                   : "none",
-                background: personal ? undefined : "var(--chat-in)",
+                backgroundColor: personal ? "transparent" : "var(--chat-in)",
               }}
               aria-label="Toggle personal theme"
             >
