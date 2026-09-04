@@ -154,10 +154,10 @@ export const BUBBLE_STYLES: BubbleStyle[] = [
 ];
 
 export function themeVars(prefs: ChatThemePrefs): Record<string, string> {
-  const t = CHAT_THEMES.find((x) => x.id === prefs.theme) ?? CHAT_THEMES[0];
-  const a = CHAT_ACCENTS.find((x) => x.id === prefs.accent) ?? CHAT_ACCENTS[0];
-  const w = CHAT_WALLPAPERS.find((x) => x.id === prefs.wallpaper) ?? CHAT_WALLPAPERS[0];
-  const b = BUBBLE_STYLES.find((x) => x.id === prefs.bubble) ?? BUBBLE_STYLES[0];
+  const t = CHAT_THEMES.find((x) => x.id === prefs.theme) ?? CHAT_THEMES[0]!;
+  const a = CHAT_ACCENTS.find((x) => x.id === prefs.accent) ?? CHAT_ACCENTS[0]!;
+  const w = CHAT_WALLPAPERS.find((x) => x.id === prefs.wallpaper) ?? CHAT_WALLPAPERS[0]!;
+  const b = BUBBLE_STYLES.find((x) => x.id === prefs.bubble) ?? BUBBLE_STYLES[0]!;
   return {
     "--chat-surface": t.surface,
     "--chat-panel": t.panel,
