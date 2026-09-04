@@ -107,7 +107,17 @@ function Index() {
 
   return (
     <main className="mx-auto min-h-screen w-full max-w-md pb-28">
+      {welcome && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-md">
+          <div className="rounded-3xl border border-border/70 bg-card/80 px-10 py-8 text-center">
+            <Heart className="heart-pulse mx-auto size-8 fill-primary text-primary" />
+            <p className="mt-4 text-2xl font-light text-romance">Welcome back</p>
+            <p className="mt-1 text-sm text-muted-foreground">{settings.names}</p>
+          </div>
+        </div>
+      )}
       <Header settings={settings} reload={load} />
+
 
       <div className="px-4">
         {tab === "photos" && <Gallery />}
