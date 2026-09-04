@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
-import { Images, StickyNote, Music2, Gamepad2, Cake, Lock, Heart } from "lucide-react";
+import { Images, StickyNote, MessageCircle, Music2, Gamepad2, Cake, Lock, Heart } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import type { Settings } from "@/lib/couple";
 import { unlockCoupleSession } from "@/lib/couple-session.functions";
@@ -9,6 +9,7 @@ import { PinLock } from "@/components/couple/PinLock";
 import { Header } from "@/components/couple/Header";
 import { Gallery } from "@/components/couple/Gallery";
 import { NotesTab } from "@/components/couple/NotesTab";
+import { ChatTab } from "@/components/couple/ChatTab";
 import { MusicTab } from "@/components/couple/MusicTab";
 import { GamesTab } from "@/components/couple/GamesTab";
 import { BirthdayTab } from "@/components/couple/BirthdayTab";
@@ -36,11 +37,12 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-type Tab = "photos" | "notes" | "music" | "games" | "birthday";
+type Tab = "photos" | "notes" | "chat" | "music" | "games" | "birthday";
 
 const TABS: [Tab, string, typeof Images][] = [
   ["photos", "Photos", Images],
   ["notes", "Notes", StickyNote],
+  ["chat", "Chat", MessageCircle],
   ["music", "Music", Music2],
   ["games", "Games", Gamepad2],
   ["birthday", "Birthday", Cake],
@@ -122,6 +124,7 @@ function Index() {
       <div className="px-4">
         {tab === "photos" && <Gallery />}
         {tab === "notes" && <NotesTab />}
+        {tab === "chat" && <ChatTab />}
         {tab === "music" && <MusicTab />}
         {tab === "games" && <GamesTab />}
         {tab === "birthday" && <BirthdayTab settings={settings} reload={load} />}
