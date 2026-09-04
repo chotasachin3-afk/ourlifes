@@ -47,6 +47,8 @@ const TABS: [Tab, string, typeof Images][] = [
 function Index() {
   const [settings, setSettings] = useState<Settings | null>(null);
   const [unlocked, setUnlocked] = useState(false);
+  const [checking, setChecking] = useState(true);
+  const [welcome, setWelcome] = useState(false);
   const [tab, setTab] = useState<Tab>("photos");
 
   const load = useCallback(async () => {
@@ -55,11 +57,27 @@ function Index() {
   }, []);
 
   useEffect(() => {
-    load();
-    if (sessionStorage.getItem("only-us-unlocked") === "1") setUnlocked(true);
+    (async () => {
+      const { data } = await supabase.auth.getSession();
+      if (data.session && sessionStorage.getItem("only-us-unlocked") === "1") {
+        await load();
+        setUnlocked(true);
+      }
+      setChecking(false);
+    })();
   }, [load]);
 
-  if (!settings) {
+  const verify = useCallback(async (pin: string) => {
+    const res = await unlockCoupleSession({ data: { pin } });
+    if (!res.ok) return false;
+    const { error } = await supabase.auth.setSession({
+      access_token: res.access_token,
+      refresh_token: res.refresh_token,
+    });
+    return !error;
+  }, []);
+
+  if (checking) {
     return (
       <main className="flex min-h-screen items-center justify-center">
         <Lock className="size-5 animate-pulse text-muted-foreground" />
@@ -67,19 +85,23 @@ function Index() {
     );
   }
 
-  if (!unlocked) {
+  if (!unlocked || !settings) {
     return (
       <main>
         <PinLock
-          pin={settings.pin}
-          onUnlock={() => {
+          verify={verify}
+          onUnlock={async () => {
             sessionStorage.setItem("only-us-unlocked", "1");
+            await load();
             setUnlocked(true);
+            setWelcome(true);
+            window.setTimeout(() => setWelcome(false), 2200);
           }}
         />
       </main>
     );
   }
+
 
   return (
     <main className="mx-auto min-h-screen w-full max-w-md pb-28">
