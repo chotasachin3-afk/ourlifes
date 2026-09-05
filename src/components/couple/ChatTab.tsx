@@ -39,6 +39,9 @@ export function ChatTab() {
   const [prefs, setPrefs] = useState<ChatThemePrefs>(DEFAULT_CHAT_PREFS);
   const [me, setMe] = useState("me");
   const endRef = useRef<HTMLDivElement>(null);
+  // Timestamp of the last local theme edit, so the realtime echo of our own
+  // save doesn't revert a newer in-flight selection.
+  const localChangeAt = useRef(0);
 
   // Load remembered choices (personal first, then the shared couple theme).
   useEffect(() => {
@@ -61,6 +64,7 @@ export function ChatTab() {
         "postgres_changes",
         { event: "*", schema: "public", table: "chat_theme" },
         () => {
+          if (Date.now() - localChangeAt.current < 2000) return;
           void loadShared().then((p) => p && setPrefs(p));
         },
       )
@@ -78,6 +82,7 @@ export function ChatTab() {
 
   const applyChange = useCallback(
     async (patch: Partial<ChatThemePrefs>) => {
+      localChangeAt.current = Date.now();
       const next = { ...prefs, ...patch };
       setPrefs(next);
       if (personal) {
