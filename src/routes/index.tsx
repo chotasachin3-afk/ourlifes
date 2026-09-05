@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
-import { Images, StickyNote, MessageCircle, Music2, Gamepad2, Cake, Lock, Heart } from "lucide-react";
+import { Images, Clapperboard, StickyNote, MessageCircle, Music2, Gamepad2, Cake, Lock, Heart } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import type { Settings } from "@/lib/couple";
 import { unlockCoupleSession } from "@/lib/couple-session.functions";
@@ -8,6 +8,7 @@ import { unlockCoupleSession } from "@/lib/couple-session.functions";
 import { PinLock } from "@/components/couple/PinLock";
 import { Header } from "@/components/couple/Header";
 import { Gallery } from "@/components/couple/Gallery";
+import { VideosTab } from "@/components/couple/VideosTab";
 import { NotesTab } from "@/components/couple/NotesTab";
 import { ChatTab } from "@/components/couple/ChatTab";
 import { MusicTab } from "@/components/couple/MusicTab";
@@ -37,10 +38,11 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-type Tab = "photos" | "notes" | "chat" | "music" | "games" | "birthday";
+type Tab = "photos" | "videos" | "notes" | "chat" | "music" | "games" | "birthday";
 
 const TABS: [Tab, string, typeof Images][] = [
   ["photos", "Photos", Images],
+  ["videos", "Videos", Clapperboard],
   ["notes", "Notes", StickyNote],
   ["chat", "Chat", MessageCircle],
   ["music", "Music", Music2],
@@ -123,6 +125,7 @@ function Index() {
 
       <div className="px-4">
         {tab === "photos" && <Gallery />}
+        {tab === "videos" && <VideosTab />}
         {tab === "notes" && <NotesTab />}
         {tab === "chat" && <ChatTab />}
         {tab === "music" && <MusicTab />}

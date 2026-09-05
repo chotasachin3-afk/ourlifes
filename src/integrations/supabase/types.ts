@@ -487,6 +487,53 @@ export type Database = {
           },
         ]
       }
+      videos: {
+        Row: {
+          caption: string | null
+          couple_id: string
+          created_at: string
+          duration: number | null
+          id: string
+          storage_path: string
+          thumb_url: string | null
+          updated_at: string
+          uploader: string | null
+          uploader_id: string | null
+        }
+        Insert: {
+          caption?: string | null
+          couple_id?: string
+          created_at?: string
+          duration?: number | null
+          id?: string
+          storage_path: string
+          thumb_url?: string | null
+          updated_at?: string
+          uploader?: string | null
+          uploader_id?: string | null
+        }
+        Update: {
+          caption?: string | null
+          couple_id?: string
+          created_at?: string
+          duration?: number | null
+          id?: string
+          storage_path?: string
+          thumb_url?: string | null
+          updated_at?: string
+          uploader?: string | null
+          uploader_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "videos_couple_id_fkey"
+            columns: ["couple_id"]
+            isOneToOne: false
+            referencedRelation: "couples"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
