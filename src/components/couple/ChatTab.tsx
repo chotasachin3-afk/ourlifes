@@ -82,6 +82,7 @@ export function ChatTab() {
 
   const applyChange = useCallback(
     async (patch: Partial<ChatThemePrefs>) => {
+      localChangeAt.current = Date.now();
       const next = { ...prefs, ...patch };
       setPrefs(next);
       if (personal) {
